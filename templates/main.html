@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main - Fog Computing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        /* Background image container */
+        .background {
+            background-image: url("{{ url_for('static', filename='bc7.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; /* Full viewport height */
+            width: 100vw; /* Full viewport width */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Header styling */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            z-index: 1;
+        }
+        .header .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header .menu {
+            display: flex;
+            gap: 20px;
+        }
+        .header .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .header .menu a:hover {
+            color: #ff0707;
+        }
+
+        /* Overlay text on image */
+        .content {
+            text-align: center;
+            color: rgb(9, 9, 9);
+            z-index: 1;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.5); /* Optional background for readability */
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .content h1 {
+            font-size: 28px;
+            color: #000000;
+            margin-bottom: 15px;
+        }
+        .content p {
+            font-size: 20px;
+            color: #000000;
+            margin: 10px 0;
+        }
+
+        .zoom-in {
+    transform: scale(0);
+    animation: zoomIn 1s ease-in-out 1s forwards; /* 2s zoom-in with 1s delay */
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+    </style>
+</head>
+<body>
+  
+    <!-- Header -->
+    <div class="header">
+        <div class="title">Fog Computing</div>
+        <div class="menu">
+            <a href="{{ url_for('welcome') }}">Home</a>
+            <a href="/view">View Profile</a>
+            <a href="{{ url_for('uploaded_files') }}">Uploaded Files</a>
+            <a href="{{ url_for('fog_login') }}">Fog Node</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <!-- Background image and Main Content with overlay text -->
+    <div class="background">
+        <div class="zoom-in">
+        <div class="content">
+            
+            <h1>Enhancing Data Security using Fog Computing</h1>
+            <p>Welcome, Owner: <span id="ownerName"></span></p>
+            <p>Here, the owner can view their profile, upload files to the fog node, and view all uploaded files.</p>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // Fetch the owner's name from session/local storage (for demonstration)
+        const ownerName = localStorage.getItem("ownerName") || "Owner Name";
+        document.getElementById("ownerName").textContent = ownerName;
+    </script>
+</body>
+</html>

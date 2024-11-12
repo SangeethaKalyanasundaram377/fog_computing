@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fog Node</title>
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='new2.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; /* Full viewport height */
+            width: 100vw; /* Full viewport width */
+           
+            
+        }
+        h1 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: white;
+            border: #155724;
+        }
+        h2 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: white;
+            border: #155724;
+        }
+        thead{
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: white;
+            border: #155724;
+        }
+        tbody{
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: white;
+            border: #155724;
+
+        }
+        </style>
+</head>
+<body>
+    <h1>Fog Node - Encrypted Files</h1>
+    <h2>Uploaded Files</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>File ID</th>
+                <th>File Name</th>
+                <th>Actions</th>
+                <th>Download</th> <!-- New column for download button -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+            <tr>
+                <td>{{ file.file_id }}</td>
+                <td>{{ file.file_name }}</td>
+                <td>
+                    <button onclick="encryptToCloud('{{ file.file_id }}')">Encrypt to Cloud</button>
+                </td>
+                <td>
+                    <button onclick="downloadEncryptedFile('{{ file.file_id }}')">Download Encrypted File</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Audio element for the alert sound -->
+    <audio id="alertSound" src="preview.mp3" preload="auto"></audio>
+
+    <script>
+// Function to encrypt file to cloud
+async function encryptToCloud(fileId) {
+    const response = await fetch('/encrypt_to_cloud', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file_id: fileId })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        alert(result.message);
+    } else {
+        // Play alert sound and show an alert if unauthorized access is detected
+        document.getElementById("alertSound").play();
+        alert("Unauthorized access detected!");
+    }
+}
+
+// Function to download encrypted file and trigger decryption
+async function downloadEncryptedFile(fileId) {
+    try {
+        const response = await fetch(`/download_encrypted/${fileId}`);
+        if (!response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            return;
+        }
+
+        // Trigger a download of the encrypted file
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'encrypted_file.enc';  // Save as .enc for encrypted file
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        // Prompt the user for the private key for decryption
+        const privateKey = prompt("Enter the decryption key to view the file:");
+        if (privateKey) {
+            decryptFile(fileId, privateKey);
+        }
+    } catch (error) {
+        console.error("Error downloading the file:", error);
+        alert("Failed to download the file. Please try again.");
+    }
+}
+
+// Function to decrypt file with private key and trigger download of decrypted file
+async function decryptFile(fileId, privateKey) {
+    const response = await fetch(`/decrypt_file`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file_id: fileId, private_key: privateKey })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        // Create a Blob from the decrypted file content
+        const decryptedBlob = new Blob([result.decrypted_content], { type: 'application/octet-stream' });
+        const url = window.URL.createObjectURL(decryptedBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'decrypted_file.txt';  // Change the file extension as needed
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        alert("Decryption successful. File saved.");
+    } else {
+        alert(result.message);
+    }
+}
+
+        
+    </script>
+</body>
+</html>

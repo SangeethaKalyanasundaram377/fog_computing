@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profile</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Your Profile</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <td id="name"></td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td id="email"></td>
+        </tr>
+        <tr>
+            <th>Mobile</th>
+            <td id="mobile"></td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td id="address"></td>
+        </tr>
+        <tr>
+            <th>Date of Birth</th>
+            <td id="dob"></td>
+        </tr>
+        <tr>
+            <th>Gender</th>
+            <td id="gender"></td>
+        </tr>
+    </table>
+    <script>
+        // Fetch user profile data from the backend
+        fetch("/view_profile")  // This should match the new route in app.py
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch profile data");
+                }
+                return response.json();
+            })
+            .then(profileData => {
+                if (profileData.error) {
+                    alert(profileData.error);
+                    return;
+                }
+    
+                // Populate table with user profile data
+                document.getElementById("name").textContent = profileData.name;
+                document.getElementById("email").textContent = profileData.email;
+                document.getElementById("mobile").textContent = profileData.mobile;
+                document.getElementById("address").textContent = profileData.address;
+                document.getElementById("dob").textContent = profileData.dob;
+                document.getElementById("gender").textContent = profileData.gender;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+    </script>
+    
+</body>
+</html>

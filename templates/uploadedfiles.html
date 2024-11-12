@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='cloud5.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; /* Full viewport height */
+            width: 100vw; /* Full viewport width */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            
+        }
+        h1 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: white;
+            border: #155724;
+        }
+        label {
+            color : white;
+            border-color: black;
+            box-shadow: #155724;
+            margin: 10px 0 5px;
+            display: block;
+        }
+        input[type="text"], input[type="file"] {
+            color : rgb(143, 23, 23);
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 10px;
+            border: 1px solid #fefefe;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #a72828;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .message {
+            margin-top: 20px;
+            display: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+
+    
+    </style>
+</head>
+<body>
+   
+    <h1>Upload a File</h1>
+    <form id="uploadForm" method="POST" enctype="multipart/form-data">
+        <label for="file_id">File ID:</label>
+        <input type="text" id="file_id" name="file_id" required>
+
+        <label for="uploaded_by">Uploaded By:</label>
+        <input type="text" id="uploaded_by" name="uploaded_by" required>
+
+        <label for="file_name">File Name:</label>
+        <input type="text" id="file_name" name="file_name" required>
+
+        <label for="file">Choose File:</label>
+        <input type="file" id="file" name="file" required>
+
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(this);
+            fetch('{{ url_for("upload_page") }}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageDiv = document.getElementById('message');
+                messageDiv.style.display = 'block';
+                messageDiv.className = 'message'; // Reset message class
+
+                if (data.success) {
+                    messageDiv.classList.add('success');
+                    messageDiv.textContent = data.message;
+                    this.reset(); // Reset the form
+                } else {
+                    messageDiv.classList.add('error');
+                    messageDiv.textContent = data.message;
+                }
+            })
+            .catch(error => {
+                const messageDiv = document.getElementById('message');
+                messageDiv.style.display = 'block';
+                messageDiv.className = 'error';
+                messageDiv.textContent = 'An error occurred: ' + error.message;
+            });
+        });
+    </script>
+</body>
+</html>

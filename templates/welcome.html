@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            background-image: url"{{ url_for('static', filename='img1.jpg') }}";
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background: linear-gradient(135deg, #0d3556b1, #478ed1);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            background-color: #0d1b2a; /* Dark background for glow effect */
+
+        }
+
+        .particle {
+    position: absolute;
+    bottom: -10px;
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+    animation: floatUpGlow 8s linear infinite;
+  }
+
+  @keyframes floatUpGlow {
+    0% {
+      transform: translateY(0) scale(0.8);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) scale(0.8);
+      opacity: 0;
+    }
+  }
+        .container {
+            text-align: center;
+        }
+        .container h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+/* Randomize particle sizes, positions, and delays */
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; width: 5px; height: 5px; }
+  .particle:nth-child(2) { left: 25%; animation-delay: 2s; width: 7px; height: 7px; }
+  .particle:nth-child(3) { left: 40%; animation-delay: 4s; width: 6px; height: 6px; }
+  .particle:nth-child(4) { left: 55%; animation-delay: 6s; width: 8px; height: 8px; }
+  .particle:nth-child(5) { left: 70%; animation-delay: 3s; width: 5px; height: 5px; }
+  .particle:nth-child(6) { left: 85%; animation-delay: 5s; width: 7px; height: 7px; }
+  .particle:nth-child(7) { left: 15%; animation-delay: 7s; width: 6px; height: 6px; }
+  .particle:nth-child(8) { left: 50%; animation-delay: 1s; width: 5px; height: 5px; }
+  .particle:nth-child(9) { left: 90%; animation-delay: 8s; width: 8px; height: 8px; }
+        
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1em;
+            color: #080808;
+            background-color: #ffffff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .button:hover {
+            background-color: #4b5148;
+            color: #ffffff;
+        }
+
+
+        .slide-text {
+    font-size: 20px;
+    font-weight: bold;
+    opacity: 0;
+    padding-left: 20px;
+    transform: translateX(-100%);
+    animation: slideIn 1.5s forwards;
+  }
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+
+</style>
+</head>
+<body>
+    <div class="background">
+        <!-- Add multiple particles -->
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+              </style>
+<div class="slide-text"><h1>Welcome to My Website</h1></div>
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/login" class="button">Login</a>
+        <a href="/signup" class="button">Sign Up</a>
+    </div>
+    <img src="{{ url_for('static', filename='img1.jpg') }}" alt="Image">
+
+</body>
+</html>
+
+
+
+
