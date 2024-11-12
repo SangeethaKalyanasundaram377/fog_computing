@@ -14,7 +14,7 @@ from flask import send_file
 from botocore.exceptions import NoCredentialsError
 
 app = Flask(__name__)
-app.secret_key = 'h70dkjQzWtLW37fg8WsuInESuVMCJtvQ2vuUG5Rs'  # Replace with a strong secret key for session management
+app.secret_key =   # Replace with a strong secret key for session management
 
 UPLOAD_FOLDER = 'uploads'
 if not os.path.exists(UPLOAD_FOLDER):
@@ -23,10 +23,10 @@ if not os.path.exists(UPLOAD_FOLDER):
 def create_connection():
     try:
         connection = mysql.connector.connect(
-            host="localhost",
-            user="root",  # Update with your MySQL username
-            password="Sangee_02",  # Update with your MySQL password
-            database="fog"  # Update with your database name
+            host=
+            user=  # Update with your MySQL username
+            password= # Update with your MySQL password
+            database=  # Update with your database name
         )
         return connection
     except Error as e:
@@ -35,9 +35,9 @@ def create_connection():
     # S3 Client Setup
 s3_client = boto3.client(
     's3',
-    aws_access_key_id='AKIAWOAVSBLXJXUQFEX5',  # Replace with your AWS Access Key
-    aws_secret_access_key='h70dkjQzWtLW37fg8WsuInESuVMCJtvQ2vuUG5Rs',  # Replace with your AWS Secret Key
-    region_name='eu-north-1'  # Replace with the AWS region of your S3 bucket
+    aws_access_key_id=,  # Replace with your AWS Access Key
+    aws_secret_access_key=  # Replace with your AWS Secret Key
+    region_name='  # Replace with the AWS region of your S3 bucket
 )
 
 
