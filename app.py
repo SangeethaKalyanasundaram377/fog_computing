@@ -378,10 +378,10 @@ def download_encrypted(file_id):
 def get_private_key_from_db(file_id):
     try:
         connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="Sangee_02",
-            database="fog"
+            host="",
+            user="",
+            password="",
+            database=" "
         )
         cursor = connection.cursor(dictionary=True)
         # Adjust query to fit your database schema
